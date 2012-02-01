@@ -1883,7 +1883,7 @@ asm (
 "    mtctr	r12			\n"	// RG_TOP
 );
 
-#if defined(MACOS_X) && defined(__OPTIMIZE__)
+#if defined(__MACH__) && defined(__OPTIMIZE__)
     // On Mac OS X, gcc doesn't push a frame when we are optimized, so trying to tear it down results in grave disorder.
 #warning Mac OS X optimization on, not popping GCC AsmCall frame
 #else

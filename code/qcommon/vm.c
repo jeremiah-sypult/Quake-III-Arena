@@ -325,7 +325,7 @@ Dlls will call this directly
 ============
 */
 int QDECL VM_DllSyscall( int arg, ... ) {
-#if ((defined __linux__) && (defined __powerpc__))
+#if ((defined __linux__) && (defined __powerpc__) || (defined __MACH__)) // jeremiah sypult, added __MACH__
   // rcg010206 - see commentary above
   int args[16];
   int i;
@@ -826,7 +826,7 @@ void VM_LogSyscalls( int *args ) {
 
 
 
-#ifdef oDLL_ONLY // bk010215 - for DLL_ONLY dedicated servers/builds w/o VM
+#ifdef DLL_ONLY // bk010215 - for DLL_ONLY dedicated servers/builds w/o VM
 int	VM_CallCompiled( vm_t *vm, int *args ) {
   return(0); 
 }

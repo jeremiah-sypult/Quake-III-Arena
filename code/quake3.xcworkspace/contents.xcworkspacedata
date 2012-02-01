@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:botlib/botlib.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:cgame/cgame.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:game/game.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:q3_ui/q3_ui.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:ui/ui.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:jpeg-6/jpeg6.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:renderer/renderer_gl.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:macosx/quake3.xcodeproj">
+   </FileRef>
+</Workspace>

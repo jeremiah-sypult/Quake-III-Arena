@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #ifdef __linux__
 #include <netinet/in.h>
 #else
-#if defined(MACOS_X)
+#if defined(__MACH__)
 #include <netinet/in.h>
 #else
 #include <winsock.h>
@@ -41,7 +41,7 @@ int demo_protocols[] =
 
 #define MIN_DEDICATED_COMHUNKMEGS 1
 #define MIN_COMHUNKMEGS 56
-#ifdef MACOS_X
+#ifdef __MACH__
 #define DEF_COMHUNKMEGS "64"
 #define DEF_COMZONEMEGS "24"
 #else
@@ -2817,7 +2817,7 @@ void Com_Shutdown (void) {
 
 #if !( defined __VECTORC )
 #if !( defined __linux__ || defined __FreeBSD__ )  // r010123 - include FreeBSD 
-#if ((!id386) && (!defined __i386__)) // rcg010212 - for PPC
+#if ((defined C_ONLY) || ((!id386) && (!defined __i386__))) // jeremiah sypult, added C_ONLY - rcg010212 - for PPC
 
 void Com_Memcpy (void* dest, const void* src, const size_t count)
 {

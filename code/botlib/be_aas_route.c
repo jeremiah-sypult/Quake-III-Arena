@@ -58,6 +58,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //maximum number of routing updates each frame
 #define MAX_FRAMEROUTINGUPDATES		10
 
+// jeremiah sypult begin, added BOTLIB_INLINE
+#ifdef WIN32
+#define BOTLIB_INLINE __inline
+#elif __MACH__
+#define BOTLIB_INLINE // TODO: linking fails on Mac OS X
+#else
+#define BOTLIB_INLINE inline
+#endif
+// jeremiah sypult end
 
 /*
 
@@ -106,7 +115,7 @@ void AAS_RoutingInfo(void)
 // Returns:				-
 // Changes Globals:		-
 //===========================================================================
-__inline int AAS_ClusterAreaNum(int cluster, int areanum)
+BOTLIB_INLINE int AAS_ClusterAreaNum(int cluster, int areanum)
 {
 	int side, areacluster;
 
@@ -166,7 +175,7 @@ void AAS_InitTravelFlagFromType(void)
 // Returns:				-
 // Changes Globals:		-
 //===========================================================================
-__inline int AAS_TravelFlagForType_inline(int traveltype)
+BOTLIB_INLINE int AAS_TravelFlagForType_inline(int traveltype)
 {
 	int tfl;
 
@@ -339,7 +348,7 @@ int AAS_EnableRoutingArea(int areanum, int enable)
 // Returns:				-
 // Changes Globals:		-
 //===========================================================================
-__inline float AAS_RoutingTime(void)
+BOTLIB_INLINE float AAS_RoutingTime(void)
 {
 	return AAS_Time();
 } //end of the function AAS_RoutingTime
@@ -379,7 +388,7 @@ int AAS_GetAreaContentsTravelFlags(int areanum)
 // Returns:				-
 // Changes Globals:		-
 //===========================================================================
-__inline int AAS_AreaContentsTravelFlags_inline(int areanum)
+BOTLIB_INLINE int AAS_AreaContentsTravelFlags_inline(int areanum)
 {
 	return aasworld.areacontentstravelflags[areanum];
 } //end of the function AAS_AreaContentsTravelFlags

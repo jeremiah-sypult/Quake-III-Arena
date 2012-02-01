@@ -932,7 +932,7 @@ static unsigned long Sys_QueryVideoMemory()
     CGLRendererInfoObj rendererInfo, rendererInfos[MAX_RENDERER_INFO_COUNT];
     long rendererInfoIndex, rendererInfoCount = MAX_RENDERER_INFO_COUNT;
     long rendererIndex, rendererCount;
-    long maxVRAM = 0, vram;
+    long maxVRAM = 0, vram = 0;
     long accelerated;
     long rendererID;
     long totalRenderers = 0;

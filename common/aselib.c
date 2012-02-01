@@ -445,9 +445,9 @@ static void ASE_KeyMAP_DIFFUSE( const char *token )
       }
     } 
     strcpy(buff1, buf1);
-    strlwr(buff1);
+    strlower(buff1);
     strcpy(buff2, buf2);
-    strlwr(buff2);
+    strlower(buff2);
     if ( strstr( buff2, buff1 + 2 ) )
 		{
 			strcpy( ase.materials[ase.numMaterials].name, strstr( buff2, buff1 + 2 ) + strlen( buff1 ) - 2 );

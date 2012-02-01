@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <sys/uio.h>
 #include <errno.h>
 
-#ifdef MACOS_X
+#ifdef __MACH__
 #import <sys/sockio.h>
 #import <net/if.h>
 #import <net/if_types.h>
@@ -332,7 +332,7 @@ void Sys_ShowIP(void) {
 NET_GetLocalAddress
 =====================
 */
-#ifdef MACOS_X
+#ifdef __MACH__
 // Don't do a forward mapping from the hostname of the machine to the IP.  The reason is that we might have obtained an IP address from DHCP and there might not be any name registered for the machine.  On Mac OS X, the machine name defaults to 'localhost' and NetInfo has 127.0.0.1 listed for this name.  Instead, we want to get a list of all the IP network interfaces on the machine.
 // This code adapted from OmniNetworking.
 
@@ -392,7 +392,7 @@ void NET_GetLocalAddress( void ) {
                         if (sdl->sdl_type != IFT_LOOP) {
                             // Get the local interface address
                             strncpy(ifr.ifr_name, inetInterface->ifr_name, sizeof(ifr.ifr_name));
-                            if (ioctl(interfaceSocket, OSIOCGIFADDR, (caddr_t)&ifr) < 0) {
+                            if (ioctl(interfaceSocket, SIOCGIFADDR, (caddr_t)&ifr) < 0) {
                                 Com_Printf("NET_GetLocalAddress: Unable to get local address for interface '%s', errno = %d\n", inetInterface->ifr_name, errno);
                             } else {
                                 struct sockaddr_in *sin;

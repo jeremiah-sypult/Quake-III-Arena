@@ -45,21 +45,6 @@ qboolean stdin_active = qfalse;
 
 //===========================================================================
 
-int main(int argc, const char *argv[]) {
-#ifdef DEDICATED
-    Q3Controller *controller;
-    
-    stdin_active = qtrue;
-    controller = [[Q3Controller alloc] init];
-    [controller quakeMain];
-    return 0;
-#else
-    return NSApplicationMain(argc, argv);
-#endif
-}
-
-//===========================================================================
-
 /*
 =================
 Sys_UnloadDll
@@ -86,39 +71,49 @@ void	* QDECL Sys_LoadDll( const char *name, char *fqpath , int (QDECL **entryPoi
 				  int (QDECL *systemcalls)(int, ...) ) {
     void *libHandle;
     void	(*dllEntry)( int (*syscallptr)(int, ...) );
-    NSString *bundlePath, *libraryPath;
-    const char *path;
-    
-	// TTimo
-	// I don't understand the search strategy here. How can the Quake3 bundle know about the location
-	// of the other bundles? is that configured somewhere in XCode?
-	/*
-    bundlePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithCString: name] ofType: @"bundle"];
-    libraryPath = [NSString stringWithFormat: @"%@/Contents/MacOS/%s", bundlePath, name];
-	*/	
-	libraryPath = [NSString stringWithFormat: @"%s.bundle/Contents/MacOS/%s", name, name];
-    if (!libraryPath)
-        return NULL;
-    
-    path = [libraryPath cString];
-    Com_Printf("Loading '%s'.\n", path);
-    libHandle = dlopen( [libraryPath cString], RTLD_LAZY );
+	char	*basepath;
+	char	*cdpath;
+	char	*gamedir;
+	char	*fn;
+	char	filename[1024];
+	
+	// jeremiah sypult - rewrote to mirror windows handling, use dylib vs. bundle
+#if 1
+	Com_sprintf( filename, sizeof( filename ), "%s.dylib", name );
+#else
+	Com_sprintf( filename, sizeof( filename ), "%s.bundle/Contents/MacOS/%s", name, name );
+#endif
+	basepath = Cvar_VariableString( "fs_basepath" );
+	cdpath = Cvar_VariableString( "fs_cdpath" );
+	gamedir = Cvar_VariableString( "fs_game" );
+	
+	fn = FS_BuildOSPath( basepath, gamedir, filename );
+	
+    Com_Printf("Loading '%s'.\n", fn);
+    libHandle = dlopen( fn, RTLD_LAZY );
     if (!libHandle) {
-        libHandle = dlopen( name, RTLD_LAZY );
+		fn = FS_BuildOSPath( basepath, BASEGAME, filename );
+		
+		Com_Printf("Loading '%s'.\n", fn);
+		
+        libHandle = dlopen( fn, RTLD_LAZY );
         if (!libHandle) {
-            Com_Printf("Error loading dll: %s\n", dlerror());
-            return NULL;
+			libHandle = dlopen( name, RTLD_LAZY );
+			if (!libHandle) {
+				Com_Printf("Error loading dll: %s\n", dlerror());
+				return NULL;
+			}
         }
     }
-
-    dllEntry = dlsym( libHandle, "_dllEntry" );
+	
+    dllEntry = dlsym( libHandle, "dllEntry" );
     if (!dllEntry) {
         Com_Printf("Error loading dll:  No dllEntry symbol.\n");
         dlclose(libHandle);
         return NULL;
     }
     
-    *entryPoint = dlsym( libHandle, "_vmMain" );
+    *entryPoint = dlsym( libHandle, "vmMain" );
     if (!*entryPoint) {
         Com_Printf("Error loading dll:  No vmMain symbol.\n");
         dlclose(libHandle);

@@ -98,7 +98,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 // this is the define for determining if we have an asm version of a C function
-#if (defined _M_IX86 || defined __i386__) && !defined __sun__  && !defined __LCC__
+#if (defined _M_IX86 || defined __i386__) && !defined __sun__  && !defined __LCC__ && !defined __MACH__ // jeremiah sypult, added __MACH__
 #define id386	1
 #else
 #define id386	0
@@ -163,24 +163,29 @@ static ID_INLINE float BigFloat(const float *l) { FloatSwap(l); }
 
 //======================= MAC OS X DEFINES =====================
 
-#if defined(MACOS_X)
+#if defined(__MACH__)
 
 #define MAC_STATIC
 #define __cdecl
 #define __declspec(x)
 #define stricmp strcasecmp
-#define ID_INLINE inline 
+#define ID_INLINE inline
+#define DLL_ONLY // jeremiah sypult
+#define C_ONLY // jeremiah sypult
 
 #ifdef __ppc__
 #define CPUSTRING	"MacOSX-ppc"
 #elif defined __i386__
 #define CPUSTRING	"MacOSX-i386"
+#elif defined __x86_64__
+#define CPUSTRING	"MacOSX-x86_64"
 #else
 #define CPUSTRING	"MacOSX-other"
 #endif
 
 #define	PATH_SEP	'/'
 
+#ifdef __ppc__
 #define __rlwimi(out, in, shift, maskBegin, maskEnd) asm("rlwimi %0,%1,%2,%3,%4" : "=r" (out) : "r" (in), "i" (shift), "i" (maskBegin), "i" (maskEnd))
 #define __dcbt(addr, offset) asm("dcbt %0,%1" : : "b" (addr), "r" (offset))
 
@@ -205,13 +210,27 @@ static inline float __fctiw(register float f) {
 
     return fi;
 }
+#endif
 
+// jeremiah sypult - begin endian
+#ifdef __BIG_ENDIAN__
+#define LittleShort(x) ShortSwap(x)
+#define LittleLong(x) LongSwap(x)
+#define LittleFloat(x) FloatSwap(&x)
 #define BigShort
-static inline short LittleShort(short l) { return ShortSwap(l); }
 #define BigLong
-static inline int LittleLong (int l) { return LongSwap(l); }
 #define BigFloat
-static inline float LittleFloat (const float l) { return FloatSwap(&l); }
+#elif __LITTLE_ENDIAN__
+#define LittleShort
+#define LittleLong
+#define LittleFloat
+#define BigShort(x) ShortSwap(x)
+#define BigLong(x) LongSwap(x)
+#define BigFloat(x) FloatSwap(&x)
+#else
+#error UNKNOWN ENDIAN
+#endif
+// jeremiah sypult - end endian
 
 #endif
 

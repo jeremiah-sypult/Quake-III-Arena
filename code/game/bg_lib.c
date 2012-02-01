@@ -291,6 +291,8 @@ int toupper( int c ) {
 #endif
 //#ifndef _MSC_VER
 
+#if 0 // jeremiah sypult, disabled memmove
+
 void *memmove( void *dest, const void *src, size_t count ) {
 	int		i;
 
@@ -307,7 +309,6 @@ void *memmove( void *dest, const void *src, size_t count ) {
 }
 
 
-#if 0
 
 double floor( double x ) {
 	return (int)(x + 0x40000000) - 0x40000000;

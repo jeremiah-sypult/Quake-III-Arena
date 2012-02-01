@@ -178,7 +178,9 @@ UINT wm_BroadcastCommand = -1;
 void _printf( const char *format, ... ) {
 	va_list argptr;
   char text[4096];
+#ifdef WIN32
   ATOM a;
+#endif
 
 	va_start (argptr,format);
 	vsprintf (text, format, argptr);

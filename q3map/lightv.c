@@ -5735,7 +5735,7 @@ int VLightMain (int argc, char **argv) {
 
 	end = clock();
 
-	_printf ("%5.2f seconds elapsed\n", (end-start) / CLK_TCK);
+	_printf ("%5.2f seconds elapsed\n", (end-start) / CLOCKS_PER_SEC);
 
 #ifdef LIGHTPOLYS
 	VL_DrawLightWindings();

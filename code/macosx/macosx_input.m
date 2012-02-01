@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #import "macosx_timers.h"
 #import "macosx_display.h" // For Sys_SetScreenFade
 
-#import <drivers/event_status_driver.h>
+#import <IOKit/hidsystem/event_status_driver.h>
 #import <sys/types.h>
 #import <sys/time.h>
 #import <unistd.h>
@@ -205,11 +205,13 @@ static void Sys_StartMouseInput()
     if (in_disableOSMouseScaling->integer==0 && (eventStatus = NXOpenEventStatus())) {
         NXMouseScaling newScaling;
 
-        NXGetMouseScaling(eventStatus, &originalScaling);
+// jeremiah sypult - TODO: deprecated mouse scaling API
+//        NXGetMouseScaling(eventStatus, &originalScaling);
         newScaling.numScaleLevels = 1;
         newScaling.scaleThresholds[0] = 1;
         newScaling.scaleFactors[0] = -1;
-        NXSetMouseScaling(eventStatus, &newScaling);
+// jeremiah sypult - TODO: deprecated mouse scaling API
+//        NXSetMouseScaling(eventStatus, &newScaling);
         NXCloseEventStatus(eventStatus);
     }
     
@@ -228,7 +230,8 @@ static void Sys_StopMouseInput()
     
     // Restore mouse scaling
     if (in_disableOSMouseScaling->integer == 0 && (eventStatus = NXOpenEventStatus())) {
-        NXSetMouseScaling(eventStatus, &originalScaling);
+// jeremiah sypult - TODO: deprecated mouse scaling API
+//        NXSetMouseScaling(eventStatus, &originalScaling);
         NXCloseEventStatus(eventStatus);
     }
 

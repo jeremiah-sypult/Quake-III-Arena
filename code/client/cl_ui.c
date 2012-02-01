@@ -1154,7 +1154,14 @@ void CL_InitUI( void ) {
 	else {
 		interpret = Cvar_VariableValue( "vm_ui" );
 	}
-	uivm = VM_Create( "ui", CL_UISystemCalls, interpret );
+
+	// jeremiah sypult - try q3_ui first
+	uivm = VM_Create( "q3_ui", CL_UISystemCalls, interpret );
+
+	if ( !uivm ) {
+		uivm = VM_Create( "ui", CL_UISystemCalls, interpret );
+	}
+
 	if ( !uivm ) {
 		Com_Error( ERR_FATAL, "VM_Create on UI failed" );
 	}
