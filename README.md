@@ -1,5 +1,5 @@
-Quake III Arena GPL source release - Mac OS X
-=============================================
+Quake III Arena GPL Source Code - Mac OS X
+==========================================
 
 This file contains the following sections:
 
