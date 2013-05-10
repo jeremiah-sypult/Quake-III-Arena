@@ -3,11 +3,61 @@ Quake III Arena GPL source release
 
 This file contains the following sections:
 
-LICENSE
 GENERAL NOTES
+COMPILING ON MAC OS X
 COMPILING ON WIN32
 COMPILING ON GNU/LINUX
-COMPILING ON MAC
+LICENSE
+
+GENERAL NOTES
+=============
+
+A short summary of the file layout:
+
+code/			   		Quake III Arena source code ( renderer, game code, OS layer etc. )
+lcc/					the retargetable C compiler ( produces assembly to be turned into qvm bytecode by q3asm )
+q3asm/					assembly to qvm bytecode compiler
+q3map/					map compiler ( .map -> .bsp ) - this is the version that comes with Q3Radiant 200f
+q3radiant/				Q3Radiant map editor build 200f ( common/ and libs/ are support dirs for radiant )
+
+QVM support & full screen mode is currently broken on Mac OS X. The workspace links to the appropriate game projects which will build dylibs. In order to run the game successfully you will need to add the following arguments:
++set r_fullscreen 0
++set vm_game 0
++set vm_cgame 0
++set vm_ui 0.
+
+Windows & Linux projects are not actively maintained in this fork.
+
+COMPILING ON MAC OS X
+=====================
+
+Xcode 4 workspace and project files are provided:
+code/quake3.xcworkspace
+q3asm/q3asm.xcodeproj
+q3map/q3map.xcodeproj
+
+COMPILING ON WIN32
+==================
+
+VC7 / Visual C++ 2003 project files are provided:
+code/quake3.sln
+q3radiant/Radiant.sln
+
+To compile the qvms, you need to run some batch files:
+you will need to have lcc.exe q3cpp.exe q3rcc.exe and q3asm.exe in your path
+( some precompiled binaries are provided in lcc/bin and code/win32/mod-sdk-setup/bin )
+the qvm batch files are in code/game code/cgame code/q3_ui code/ui ..
+
+COMPILING ON GNU/LINUX
+==================
+
+the build system using cons, which may be known as scons's perl ancestor now
+you don't have to track it down though, the build script is provided in the tree
+you will need nasm and gcc 2.95
+make sure you have the X Direct Graphics Access and X Video Mode extensions headers for your X11
+a typical compile command goes like this:
+[..]/code$ ./unix/cons -- gcc=gcc-2.95 g++=g++-2.95
+
 
 LICENSE
 =======
@@ -150,44 +200,3 @@ been lost, so the one from release 6b is included instead. There are a few
 the engine, but otherwise the dependency can be easily cleaned up to a
 better release of the library.
 
-
-GENERAL NOTES
-=============
-
-A short summary of the file layout:
-
-code/			   		Quake III Arena source code ( renderer, game code, OS layer etc. )
-code/bspc				bot routes compiler source code
-lcc/					the retargetable C compiler ( produces assembly to be turned into qvm bytecode by q3asm )
-q3asm/					assembly to qvm bytecode compiler
-q3map/					map compiler ( .map -> .bsp ) - this is the version that comes with Q3Radiant 200f
-q3radiant/				Q3Radiant map editor build 200f ( common/ and libs/ are support dirs for radiant )
-
-While we made sure we were still able to compile the game on Windows, GNU/Linux and Mac, this build didn't get any kind of extensive testing so it may not work completely right. Whenever an id game is released under GPL, several projects start making the source code more friendly to nowaday's compilers and environements. If you are picking up this release weeks/months/years after we uploaded it, you probably want to look around on the net for cleaned up versions of this codebase as well.
-
-COMPILING ON WIN32
-==================
-
-VC7 / Visual C++ 2003 project files are provided:
-code/quake3.sln
-q3radiant/Radiant.sln
-
-To compile the qvms, you need to run some batch files:
-you will need to have lcc.exe q3cpp.exe q3rcc.exe and q3asm.exe in your path
-( some precompiled binaries are provided in lcc/bin and code/win32/mod-sdk-setup/bin )
-the qvm batch files are in code/game code/cgame code/q3_ui code/ui ..
-
-COMPILING ON GNU/LINUX
-==================
-
-the build system using cons, which may be known as scons's perl ancestor now
-you don't have to track it down though, the build script is provided in the tree
-you will need nasm and gcc 2.95
-make sure you have the X Direct Graphics Access and X Video Mode extensions headers for your X11
-a typical compile command goes like this:
-[..]/code$ ./unix/cons -- gcc=gcc-2.95 g++=g++-2.95
-
-COMPILING ON MAC
-================
-
-project file for OSX compile is in code/macosx/Quake3.pbproj
