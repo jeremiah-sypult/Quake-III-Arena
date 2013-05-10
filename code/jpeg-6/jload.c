@@ -32,10 +32,11 @@ int LoadJPG( const char *filename, unsigned char **pic, int *width, int *height 
    */
   struct jpeg_error_mgr jerr;
   /* More stuff */
-  fileHandle_t infile;		/* source file */
   JSAMPARRAY buffer;		/* Output row buffer */
   int row_stride;		/* physical row width in output buffer */
   unsigned char *out;
+  byte	*fbuffer;
+  byte  *bbuf;
 
   /* In this example we want to open the input file before doing anything else,
    * so that the setjmp() error recovery below can assume the file is open.
@@ -43,9 +44,9 @@ int LoadJPG( const char *filename, unsigned char **pic, int *width, int *height 
    * requires it in order to read binary files.
    */
 
-  FS_FOpenFileRead( filename, &infile, qfalse );
-  if (infile == 0) {
-    return 0;
+  FS_ReadFile ( ( char * ) filename, (void **)&fbuffer);
+  if (!fbuffer) {
+	return 0;
   }
 
   /* Step 1: allocate and initialize JPEG decompression object */
@@ -62,7 +63,7 @@ int LoadJPG( const char *filename, unsigned char **pic, int *width, int *height 
 
   /* Step 2: specify data source (eg, a file) */
 
-  jpeg_stdio_src(&cinfo, infile);
+  jpeg_stdio_src(&cinfo, fbuffer);
 
   /* Step 3: read file parameters with jpeg_read_header() */
 
@@ -112,8 +113,22 @@ int LoadJPG( const char *filename, unsigned char **pic, int *width, int *height 
      * Here the array is only one element long, but you could ask for
      * more than one scanline at a time if that's more convenient.
      */
-	buffer = (JSAMPARRAY)out+(row_stride*cinfo.output_scanline);
+	bbuf = ((out+(row_stride*cinfo.output_scanline)));
+	buffer = &bbuf;
     (void) jpeg_read_scanlines(&cinfo, buffer, 1);
+  }
+
+  // clear all the alphas to 255
+  {
+	  int	i, j;
+		byte	*buf;
+
+		buf = *pic;
+
+	  j = cinfo.output_width * cinfo.output_height * 4;
+	  for ( i = 3 ; i < j ; i+=4 ) {
+		  buf[i] = 255;
+	  }
   }
 
   /* Step 7: Finish decompression */
@@ -133,7 +148,7 @@ int LoadJPG( const char *filename, unsigned char **pic, int *width, int *height 
    * so as to simplify the setjmp error logic above.  (Actually, I don't
    * think that jpeg_destroy can do an error exit, but why assume anything...)
    */
-  FS_FCloseFile(infile);
+  FS_FreeFile (fbuffer);
 
   /* At this point you may want to check to see whether any corrupt-data
    * warnings occurred (test whether jerr.pub.num_warnings is nonzero).

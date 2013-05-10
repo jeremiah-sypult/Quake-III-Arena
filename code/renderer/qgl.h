@@ -43,7 +43,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #elif defined(__MACH__)
 
-#include "macosx_glimp.h"
+#include <OpenGL/gl.h>
 
 #elif defined( __linux__ )
 

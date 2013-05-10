@@ -166,10 +166,8 @@ static ID_INLINE float BigFloat(const float *l) { FloatSwap(l); }
 #if defined(__MACH__)
 
 #define MAC_STATIC
-#define __cdecl
-#define __declspec(x)
 #define stricmp strcasecmp
-#define ID_INLINE inline
+#define ID_INLINE __inline__ __attribute__((always_inline))
 #define DLL_ONLY // jeremiah sypult
 #define C_ONLY // jeremiah sypult
 
