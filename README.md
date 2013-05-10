@@ -60,10 +60,14 @@ VC7 / Visual C++ 2003 project files are provided:
     code/quake3.sln
     q3radiant/Radiant.sln
 
-To compile the qvms, you need to run some batch files:
-you will need to have lcc.exe q3cpp.exe q3rcc.exe and q3asm.exe in your path
-( some precompiled binaries are provided in lcc/bin and code/win32/mod-sdk-setup/bin )
-the qvm batch files are in code/game code/cgame code/q3_ui code/ui ..
+To compile the qvms, you need to run some batch files.
+You will also need to have lcc.exe q3cpp.exe q3rcc.exe and q3asm.exe in your path.
+The qvm batch files are in:
+
+    code/game
+    code/cgame
+    code/q3_ui
+    code/ui
 
 COMPILING ON GNU/LINUX
 ==================
