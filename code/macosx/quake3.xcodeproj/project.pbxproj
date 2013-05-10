@@ -55,7 +55,6 @@
 		2711BEFB14D138D9005EB142 /* macosx_glimp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2711BEEC14D138D9005EB142 /* macosx_glimp.m */; };
 		2711BEFC14D138D9005EB142 /* macosx_glsmp_mutex.m in Sources */ = {isa = PBXBuildFile; fileRef = 2711BEED14D138D9005EB142 /* macosx_glsmp_mutex.m */; };
 		2711BEFF14D138D9005EB142 /* macosx_input.m in Sources */ = {isa = PBXBuildFile; fileRef = 2711BEF014D138D9005EB142 /* macosx_input.m */; };
-		2711BF0014D138D9005EB142 /* macosx_sndcore.m in Sources */ = {isa = PBXBuildFile; fileRef = 2711BEF314D138D9005EB142 /* macosx_sndcore.m */; };
 		2711BF0214D138D9005EB142 /* macosx_sys.m in Sources */ = {isa = PBXBuildFile; fileRef = 2711BEF514D138D9005EB142 /* macosx_sys.m */; };
 		2711BF0314D138D9005EB142 /* macosx_timers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2711BEF714D138D9005EB142 /* macosx_timers.m */; };
 		2711BF0414D138D9005EB142 /* Q3Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2711BEF914D138D9005EB142 /* Q3Controller.m */; };
@@ -69,6 +68,9 @@
 		273537A014D8F13E000D6E73 /* renderer_gl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2735379D14D8F13E000D6E73 /* renderer_gl.a */; };
 		273E440614D158A2006BC120 /* Quake3.nib in Resources */ = {isa = PBXBuildFile; fileRef = 273E440514D158A1006BC120 /* Quake3.nib */; };
 		273E440914D158CB006BC120 /* Quake3.icns in Resources */ = {isa = PBXBuildFile; fileRef = 273E440814D158CB006BC120 /* Quake3.icns */; };
+		2796E09D173CAD14007F11A4 /* macosx_snd_augraph.m in Sources */ = {isa = PBXBuildFile; fileRef = 2796E09C173CAD13007F11A4 /* macosx_snd_augraph.m */; };
+		2796E0A0173CAD2C007F11A4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2796E09E173CAD2C007F11A4 /* AudioToolbox.framework */; };
+		2796E0A1173CAD2C007F11A4 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2796E09F173CAD2C007F11A4 /* AudioUnit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -171,6 +173,9 @@
 		2735379D14D8F13E000D6E73 /* renderer_gl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = renderer_gl.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		273E440514D158A1006BC120 /* Quake3.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Quake3.nib; sourceTree = "<group>"; };
 		273E440814D158CB006BC120 /* Quake3.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Quake3.icns; sourceTree = "<group>"; };
+		2796E09C173CAD13007F11A4 /* macosx_snd_augraph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = macosx_snd_augraph.m; sourceTree = "<group>"; };
+		2796E09E173CAD2C007F11A4 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		2796E09F173CAD2C007F11A4 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		27C37B2B14D1483500DC3BE4 /* botlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = botlib.h; sourceTree = "<group>"; };
 		27C37B3214D1509E00DC3BE4 /* tr_public.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tr_public.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -180,6 +185,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2796E0A0173CAD2C007F11A4 /* AudioToolbox.framework in Frameworks */,
+				2796E0A1173CAD2C007F11A4 /* AudioUnit.framework in Frameworks */,
 				273531F014D1275D00EB7BD6 /* Cocoa.framework in Frameworks */,
 				2711BF0B14D13B5F005EB142 /* IOKit.framework in Frameworks */,
 				2711BF0A14D13B5F005EB142 /* CoreAudio.framework in Frameworks */,
@@ -353,6 +360,7 @@
 				2711BEF014D138D9005EB142 /* macosx_input.m */,
 				2711BEF114D138D9005EB142 /* macosx_local.h */,
 				2711BEF214D138D9005EB142 /* macosx_qgl.h */,
+				2796E09C173CAD13007F11A4 /* macosx_snd_augraph.m */,
 				2711BEF314D138D9005EB142 /* macosx_sndcore.m */,
 				2711BEF514D138D9005EB142 /* macosx_sys.m */,
 				2711BEF614D138D9005EB142 /* macosx_timers.h */,
@@ -395,6 +403,8 @@
 		273531EE14D1275D00EB7BD6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2796E09E173CAD2C007F11A4 /* AudioToolbox.framework */,
+				2796E09F173CAD2C007F11A4 /* AudioUnit.framework */,
 				273531EF14D1275D00EB7BD6 /* Cocoa.framework */,
 				2711BF0714D13B59005EB142 /* CoreAudio.framework */,
 				2711BF0814D13B5B005EB142 /* IOKit.framework */,
@@ -526,11 +536,11 @@
 				2711BEFB14D138D9005EB142 /* macosx_glimp.m in Sources */,
 				2711BEFC14D138D9005EB142 /* macosx_glsmp_mutex.m in Sources */,
 				2711BEFF14D138D9005EB142 /* macosx_input.m in Sources */,
-				2711BF0014D138D9005EB142 /* macosx_sndcore.m in Sources */,
 				2711BF0214D138D9005EB142 /* macosx_sys.m in Sources */,
 				2711BF0314D138D9005EB142 /* macosx_timers.m in Sources */,
 				2711BF0414D138D9005EB142 /* Q3Controller.m in Sources */,
 				2711BF1014D13E3A005EB142 /* main.m in Sources */,
+				2796E09D173CAD14007F11A4 /* macosx_snd_augraph.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

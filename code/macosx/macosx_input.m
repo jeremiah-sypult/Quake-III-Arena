@@ -808,11 +808,10 @@ static void Sys_SendKeyEvents(int currentTime)
 #ifndef DEDICATED
     NSEvent *event;
     NSDate *timeout;
-    extern float SNDDMA_GetBufferDuration();
     
     timeout = distantPast;
     if (Sys_IsHidden)
-        timeout = [NSDate dateWithTimeIntervalSinceNow: 0.25 * SNDDMA_GetBufferDuration()];
+        timeout = [NSDate dateWithTimeIntervalSinceNow:0.25];
     
     // This gets call regardless of whether inputActive is true or not.  This is important since we need to be poking the event queue in order for the unhide event to make its way through the system.  This means that when we hide, we can just shut down the input system and reeanbled it when we unhide.
     while ((event = [NSApp nextEventMatchingMask: NSAnyEventMask
