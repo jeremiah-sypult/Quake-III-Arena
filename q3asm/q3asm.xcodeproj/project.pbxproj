@@ -1,0 +1,227 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		27EEDBE414DB870A00DF5741 /* cmdlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 27EEDBDE14DB870A00DF5741 /* cmdlib.c */; };
+		27EEDBE514DB870A00DF5741 /* q3asm.c in Sources */ = {isa = PBXBuildFile; fileRef = 27EEDBE214DB870A00DF5741 /* q3asm.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2765F93414DB86120039F21D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2765F93614DB86120039F21D /* q3asm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = q3asm; sourceTree = BUILT_PRODUCTS_DIR; };
+		27EEDBDE14DB870A00DF5741 /* cmdlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cmdlib.c; sourceTree = SOURCE_ROOT; };
+		27EEDBDF14DB870A00DF5741 /* cmdlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmdlib.h; sourceTree = SOURCE_ROOT; };
+		27EEDBE014DB870A00DF5741 /* mathlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mathlib.h; sourceTree = SOURCE_ROOT; };
+		27EEDBE114DB870A00DF5741 /* opstrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opstrings.h; sourceTree = SOURCE_ROOT; };
+		27EEDBE214DB870A00DF5741 /* q3asm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = q3asm.c; sourceTree = SOURCE_ROOT; };
+		27EEDBE314DB870A00DF5741 /* qfiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qfiles.h; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2765F93314DB86120039F21D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2765F92B14DB86120039F21D = {
+			isa = PBXGroup;
+			children = (
+				2765F93914DB86120039F21D /* q3asm */,
+				2765F93714DB86120039F21D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2765F93714DB86120039F21D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2765F93614DB86120039F21D /* q3asm */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2765F93914DB86120039F21D /* q3asm */ = {
+			isa = PBXGroup;
+			children = (
+				27EEDBDE14DB870A00DF5741 /* cmdlib.c */,
+				27EEDBDF14DB870A00DF5741 /* cmdlib.h */,
+				27EEDBE014DB870A00DF5741 /* mathlib.h */,
+				27EEDBE114DB870A00DF5741 /* opstrings.h */,
+				27EEDBE214DB870A00DF5741 /* q3asm.c */,
+				27EEDBE314DB870A00DF5741 /* qfiles.h */,
+			);
+			path = q3asm;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2765F93514DB86120039F21D /* q3asm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2765F94014DB86120039F21D /* Build configuration list for PBXNativeTarget "q3asm" */;
+			buildPhases = (
+				2765F93214DB86120039F21D /* Sources */,
+				2765F93314DB86120039F21D /* Frameworks */,
+				2765F93414DB86120039F21D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = q3asm;
+			productName = q3asm;
+			productReference = 2765F93614DB86120039F21D /* q3asm */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2765F92D14DB86120039F21D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+			};
+			buildConfigurationList = 2765F93014DB86120039F21D /* Build configuration list for PBXProject "q3asm" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2765F92B14DB86120039F21D;
+			productRefGroup = 2765F93714DB86120039F21D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2765F93514DB86120039F21D /* q3asm */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2765F93214DB86120039F21D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27EEDBE414DB870A00DF5741 /* cmdlib.c in Sources */,
+				27EEDBE514DB870A00DF5741 /* q3asm.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2765F93E14DB86120039F21D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2765F93F14DB86120039F21D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		2765F94114DB86120039F21D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		2765F94214DB86120039F21D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2765F93014DB86120039F21D /* Build configuration list for PBXProject "q3asm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2765F93E14DB86120039F21D /* Debug */,
+				2765F93F14DB86120039F21D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2765F94014DB86120039F21D /* Build configuration list for PBXNativeTarget "q3asm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2765F94114DB86120039F21D /* Debug */,
+				2765F94214DB86120039F21D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2765F92D14DB86120039F21D /* Project object */;
+}
