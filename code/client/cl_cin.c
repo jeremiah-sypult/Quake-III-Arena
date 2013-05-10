@@ -644,7 +644,7 @@ static unsigned short yuv_to_rgb( long y, long u, long v )
 *
 ******************************************************************************/
 
-static inline unsigned int yuv_to_rgb24( long y, long u, long v )
+static unsigned int yuv_to_rgb24( long y, long u, long v )
 { 
 	long r,g,b,YY = (long)(ROQ_YY_tab[(y)]);
 
