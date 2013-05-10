@@ -4539,6 +4539,7 @@ void CMainFrame::OnPatchTab()
     // if it is, deselect everything and reselect the next brush 
     // in the group
 	  brush_t *b = selected_brushes.next;
+	  brush_t * b2;
     entity_t * e;
     if (b != &selected_brushes)
     {
@@ -4546,7 +4547,7 @@ void CMainFrame::OnPatchTab()
       {
         e = b->owner;
         Select_Deselect();
-		    for (brush_t * b2 = e->brushes.onext ; b2 != &e->brushes ; b2 = b2->onext)
+		    for (b2 = e->brushes.onext ; b2 != &e->brushes ; b2 = b2->onext)
 		    {
           if (b == b2)
           {

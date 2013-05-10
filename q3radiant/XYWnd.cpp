@@ -1122,7 +1122,7 @@ void CXYWnd::OnPaint()
 		  qglPointSize (1);
 
       CString strMsg;
-      for (n = 0; n < g_nPathCount; n++)
+      for (int n = 0; n < g_nPathCount; n++)
       {
         qglRasterPos3f (g_PathPoints[n].m_ptClip[0]+2, g_PathPoints[n].m_ptClip[1]+2, g_PathPoints[n].m_ptClip[2]+2);
         strMsg.Format("%i", n+1);
@@ -1357,7 +1357,7 @@ void FinishSmartCreation()
       array.Add(reinterpret_cast<void*>(selected_brushes.next));
     }
 
-    for (n = 0; n < g_nPathCount; n++)
+    for (int n = 0; n < g_nPathCount; n++)
     {
       Select_Deselect();
       Select_Brush(reinterpret_cast<brush_t*>(array.GetAt(n)));

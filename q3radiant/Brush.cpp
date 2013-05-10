@@ -2340,7 +2340,7 @@ brush_t	*Brush_CreatePyramid (vec3_t mins, vec3_t maxs, texdef_t *texdef)
 	bottom[2] = mins[2];
 
 	// sides
-	for (i = 0; i < 4; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		face_t* f = Face_Alloc();
 		f->texdef = *texdef;
@@ -3871,7 +3871,7 @@ void DrawLight(brush_t *b)
   qglBegin(GL_TRIANGLE_FAN);
   qglVertex3fv(vBottom);
   qglVertex3fv(vCorners[0]);
-  for (i = 3; i >= 0; i--)
+  for (int i = 3; i >= 0; i--)
   {
     vTriColor[0] *= 0.95;
     vTriColor[1] *= 0.95;

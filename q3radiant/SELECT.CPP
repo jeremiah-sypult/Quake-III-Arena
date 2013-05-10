@@ -1648,7 +1648,8 @@ void Select_AllOfType()
 void Select_Reselect()
 {
   CPtrArray holdArray;
-	for (brush_t* b=selected_brushes.next ; b && b != &selected_brushes ; b=b->next)
+  brush_t* b;
+	for (b=selected_brushes.next ; b && b != &selected_brushes ; b=b->next)
 	{
     holdArray.Add(reinterpret_cast<void*>(b));
 	}

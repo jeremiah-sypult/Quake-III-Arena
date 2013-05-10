@@ -628,7 +628,7 @@ qboolean Eclass_hasModel(eclass_t *e, vec3_t &vMin, vec3_t &vMax)
     model = e->model;
     while (model != NULL)
     {
-      for (i = 0; i < model->nTriCount; i++)
+      for (int i = 0; i < model->nTriCount; i++)
       {
         for (int j = 0; j < 3; j++)
         {

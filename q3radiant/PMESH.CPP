@@ -5016,14 +5016,14 @@ void Patch_FromTriangle(vec5_t vx, vec5_t vy, vec5_t vz)
     //vMidXZ[j] = vx[j] + abs((vx[j] - vz[j]) * 0.5);
   }
 
-  for (j = 0; j < 3; j++)
+  for (int j = 0; j < 3; j++)
   {
     _Vector5Add(vx, vy, vMidXY);
     _Vector5Scale(vMidXY, 0.5, vMidXY);
     //vMidXY[j] = vx[j] + abs((vx[j] - vy[j]) * 0.5);
   }
 
-  for (j = 0; j < 3; j++)
+  for (int j = 0; j < 3; j++)
   {
     _Vector5Add(vy, vz, vMidYZ);
     _Vector5Scale(vMidYZ, 0.5, vMidYZ);
