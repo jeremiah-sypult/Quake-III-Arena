@@ -16,6 +16,7 @@ GENERAL NOTES
 A short summary of the file layout:
 
     code/			   		Quake III Arena source code ( renderer, game code, OS layer etc. )
+    bspc/                   bot routes compiler source code
     lcc/					the retargetable C compiler ( produces assembly to be turned into qvm bytecode by q3asm )
     q3asm/					assembly to qvm bytecode compiler
     q3map/					map compiler ( .map -> .bsp ) - this is the version that comes with Q3Radiant 200f
@@ -47,6 +48,7 @@ Xcode 4 workspace and project files are provided:
     code/q3_ui/q3_ui.xcodeproj
     code/renderer/renderer_gl.xcodeproj
     code/ui/ui.xcodeproj
+    bspc/bspc.xcodeproj
     q3asm/q3asm.xcodeproj
     q3map/q3map.xcodeproj
 
