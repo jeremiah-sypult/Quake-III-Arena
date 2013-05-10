@@ -7,7 +7,7 @@ Global
 	GlobalSection(SourceCodeControl) = preSolution
 		SccNumberOfProjects = 1
 		SccProjectUniqueName0 = bspc.vcproj
-		SccProjectName0 = \u0022$/source/code/bspc\u0022,\u0020IGAAAAAA
+		SccProjectName0 = \u0022$/source/bspc\u0022,\u0020IGAAAAAA
 		SccLocalPath0 = .
 		SccProvider0 = MSSCCI:Perforce\u0020SCM
 	EndGlobalSection
