@@ -166,10 +166,7 @@
 		273531EB14D1275D00EB7BD6 /* quake3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = quake3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		273531EF14D1275D00EB7BD6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		273531F714D1275D00EB7BD6 /* quake3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "quake3-Info.plist"; sourceTree = "<group>"; };
-		273531F914D1275D00EB7BD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		273531FD14D1275D00EB7BD6 /* quake3-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "quake3-Prefix.pch"; sourceTree = "<group>"; };
-		273531FF14D1275D00EB7BD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		2735320514D1275D00EB7BD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		2735379B14D8F13E000D6E73 /* botlib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = botlib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2735379C14D8F13E000D6E73 /* libjpeg6.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libjpeg6.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2735379D14D8F13E000D6E73 /* renderer_gl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = renderer_gl.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -413,12 +410,9 @@
 			children = (
 				273E440814D158CB006BC120 /* Quake3.icns */,
 				273E440514D158A1006BC120 /* Quake3.nib */,
-				2735320414D1275D00EB7BD6 /* MainMenu.xib */,
 				273531F714D1275D00EB7BD6 /* quake3-Info.plist */,
-				273531F814D1275D00EB7BD6 /* InfoPlist.strings */,
 				2711BF0F14D13E3A005EB142 /* main.m */,
 				273531FD14D1275D00EB7BD6 /* quake3-Prefix.pch */,
-				273531FE14D1275D00EB7BD6 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -450,7 +444,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = id;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = 273531E514D1275D00EB7BD6 /* Build configuration list for PBXProject "quake3" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -544,39 +538,16 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		273531F814D1275D00EB7BD6 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				273531F914D1275D00EB7BD6 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		273531FE14D1275D00EB7BD6 /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				273531FF14D1275D00EB7BD6 /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		2735320414D1275D00EB7BD6 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2735320514D1275D00EB7BD6 /* en */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		2735320714D1275D00EB7BD6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -593,7 +564,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -604,6 +575,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -614,7 +589,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -622,9 +597,11 @@
 		2735320A14D1275D00EB7BD6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "quake3-Prefix.pch";
 				INFOPLIST_FILE = "quake3-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -633,9 +610,11 @@
 		2735320B14D1275D00EB7BD6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "quake3-Prefix.pch";
 				INFOPLIST_FILE = "quake3-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
