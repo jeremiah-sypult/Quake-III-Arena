@@ -1,47 +1,64 @@
-Quake III Arena GPL source release
-==================================
+Quake III Arena GPL source release - Mac OS X
+=============================================
 
 This file contains the following sections:
 
-GENERAL NOTES
-COMPILING ON MAC OS X
-COMPILING ON WIN32
-COMPILING ON GNU/LINUX
-LICENSE
+1. GENERAL NOTES
+2. ISSUES
+3. COMPILING ON MAC OS X
+4. COMPILING ON WIN32
+5. COMPILING ON GNU/LINUX
+6. LICENSE
 
 GENERAL NOTES
 =============
 
 A short summary of the file layout:
 
-code/			   		Quake III Arena source code ( renderer, game code, OS layer etc. )
-lcc/					the retargetable C compiler ( produces assembly to be turned into qvm bytecode by q3asm )
-q3asm/					assembly to qvm bytecode compiler
-q3map/					map compiler ( .map -> .bsp ) - this is the version that comes with Q3Radiant 200f
-q3radiant/				Q3Radiant map editor build 200f ( common/ and libs/ are support dirs for radiant )
+    code/			   		Quake III Arena source code ( renderer, game code, OS layer etc. )
+    lcc/					the retargetable C compiler ( produces assembly to be turned into qvm bytecode by q3asm )
+    q3asm/					assembly to qvm bytecode compiler
+    q3map/					map compiler ( .map -> .bsp ) - this is the version that comes with Q3Radiant 200f
+    q3radiant/				Q3Radiant map editor build 200f ( common/ and libs/ are support dirs for radiant )
 
-QVM support & full screen mode is currently broken on Mac OS X. The workspace links to the appropriate game projects which will build dylibs. In order to run the game successfully you will need to add the following arguments:
-+set r_fullscreen 0
-+set vm_game 0
-+set vm_cgame 0
-+set vm_ui 0.
+ISSUES
+======
 
 Windows & Linux projects are not actively maintained in this fork.
+
+QVM support and full screen mode are currently broken on Mac OS X. In order to run the game successfully you will need to start the executable with the following launch arguments:
+
+    +set r_fullscreen 0
+    +set vm_game 0
+    +set vm_cgame 0
+    +set vm_ui 0
 
 COMPILING ON MAC OS X
 =====================
 
 Xcode 4 workspace and project files are provided:
-code/quake3.xcworkspace
-q3asm/q3asm.xcodeproj
-q3map/q3map.xcodeproj
+
+    code/quake3.xcworkspace
+    code/botlib/botlib.xcodeproj
+    code/cgame/cgame.xcodeproj
+    code/game/game.xcodeproj
+    code/jpeg-6/jpeg6.xcodeproj
+    code/macosx/quake3.xcodeproj
+    code/q3_ui/q3_ui.xcodeproj
+    code/renderer/renderer_gl.xcodeproj
+    code/ui/ui.xcodeproj
+    q3asm/q3asm.xcodeproj
+    q3map/q3map.xcodeproj
+
+Open quake3.xcworkspace and select the quake3 target. You can then build it from the Product menu.
 
 COMPILING ON WIN32
 ==================
 
 VC7 / Visual C++ 2003 project files are provided:
-code/quake3.sln
-q3radiant/Radiant.sln
+
+    code/quake3.sln
+    q3radiant/Radiant.sln
 
 To compile the qvms, you need to run some batch files:
 you will need to have lcc.exe q3cpp.exe q3rcc.exe and q3asm.exe in your path
@@ -56,7 +73,7 @@ you don't have to track it down though, the build script is provided in the tree
 you will need nasm and gcc 2.95
 make sure you have the X Direct Graphics Access and X Video Mode extensions headers for your X11
 a typical compile command goes like this:
-[..]/code$ ./unix/cons -- gcc=gcc-2.95 g++=g++-2.95
+ [..]/code$ ./unix/cons -- gcc=gcc-2.95 g++=g++-2.95
 
 
 LICENSE
