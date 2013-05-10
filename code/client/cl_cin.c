@@ -643,26 +643,8 @@ static unsigned short yuv_to_rgb( long y, long u, long v )
 * Description:	
 *
 ******************************************************************************/
-#if defined(__MACH__)
 
 static inline unsigned int yuv_to_rgb24( long y, long u, long v )
-{ 
-	long r,g,b,YY;
-        
-        YY = (long)(ROQ_YY_tab[(y)]);
-
-	r = (YY + ROQ_VR_tab[v]) >> 6;
-	g = (YY + ROQ_UG_tab[u] + ROQ_VG_tab[v]) >> 6;
-	b = (YY + ROQ_UB_tab[u]) >> 6;
-	
-	if (r<0) r = 0; if (g<0) g = 0; if (b<0) b = 0;
-	if (r > 255) r = 255; if (g > 255) g = 255; if (b > 255) b = 255;
-	
-	return ((r<<24)|(g<<16)|(b<<8))|(255);	//+(255<<24));
-}
-
-#else
-static unsigned int yuv_to_rgb24( long y, long u, long v )
 { 
 	long r,g,b,YY = (long)(ROQ_YY_tab[(y)]);
 
@@ -675,7 +657,6 @@ static unsigned int yuv_to_rgb24( long y, long u, long v )
 	
 	return LittleLong ((r)|(g<<8)|(b<<16)|(255<<24));
 }
-#endif
 
 /******************************************************************************
 *
@@ -1603,6 +1584,10 @@ void CIN_DrawCinematic (int handle) {
 	buf = cinTable[handle].buf;
 	SCR_AdjustFrom640( &x, &y, &w, &h );
 
+#if 1
+	re.DrawStretchRaw( x, y, w, h, cinTable[handle].CIN_WIDTH, cinTable[handle].CIN_HEIGHT, buf, handle, cinTable[handle].dirty);
+	cinTable[handle].dirty = qfalse;
+#else
 	if (cinTable[handle].dirty && (cinTable[handle].CIN_WIDTH != cinTable[handle].drawX || cinTable[handle].CIN_HEIGHT != cinTable[handle].drawY)) {
 		int ix, iy, *buf2, *buf3, xm, ym, ll;
                 
@@ -1660,6 +1645,7 @@ void CIN_DrawCinematic (int handle) {
 
 	re.DrawStretchRaw( x, y, w, h, cinTable[handle].drawX, cinTable[handle].drawY, buf, handle, cinTable[handle].dirty);
 	cinTable[handle].dirty = qfalse;
+#endif
 }
 
 void CL_PlayCinematic_f(void) {
