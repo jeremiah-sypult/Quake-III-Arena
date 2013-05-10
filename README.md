@@ -48,11 +48,18 @@ Xcode 4 workspace and project files are provided:
     code/q3_ui/q3_ui.xcodeproj
     code/renderer/renderer_gl.xcodeproj
     code/ui/ui.xcodeproj
+
+For running the game, open quake3.xcworkspace and select the quake3 target. You can then build it from the Product menu.
+
+There are Xcode projects for some of the tools as well:
+
     bspc/bspc.xcodeproj
+    lcc/q3lcc.xcodeproj
     q3asm/q3asm.xcodeproj
     q3map/q3map.xcodeproj
+    
+While it appears that the tools projects will build and run, they have not been extensively tested or guaranteed to work 100%.
 
-Open quake3.xcworkspace and select the quake3 target. You can then build it from the Product menu.
 
 COMPILING ON WIN32
 ==================
