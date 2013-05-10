@@ -29,7 +29,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
 
-#import <mach-o/dyld.h>
+#import <dlfcn.h> // dlsym
+#import <mach-o/dyld.h> // NSSymbol
+
 #import <mach/mach.h>
 #import <mach/mach_error.h>
 
@@ -37,6 +39,7 @@ cvar_t	*r_allowSoftwareGL;		// don't abort out if the pixelformat claims softwar
 cvar_t  *r_enablerender;                // Enable actual rendering
 cvar_t  *r_appleTransformHint;          // Enable Apple transform hint
 
+void *GLimp_ExtensionPointer(const char *name);
 static void GLW_InitExtensions( void );
 static qboolean CreateGameWindow( qboolean isSecondTry );
 static unsigned long Sys_QueryVideoMemory();
@@ -382,9 +385,9 @@ static qboolean CreateGameWindow( qboolean isSecondTry )
 #endif
 
     // Store off the pixel format attributes that we actually got
-    [pixelFormat getValues: (long *) &glConfig.colorBits forAttribute: NSOpenGLPFAColorSize forVirtualScreen: 0];
-    [pixelFormat getValues: (long *) &glConfig.depthBits forAttribute: NSOpenGLPFADepthSize forVirtualScreen: 0];
-    [pixelFormat getValues: (long *) &glConfig.stencilBits forAttribute: NSOpenGLPFAStencilSize forVirtualScreen: 0];
+    [pixelFormat getValues: (GLint *) &glConfig.colorBits forAttribute: NSOpenGLPFAColorSize forVirtualScreen: 0];
+    [pixelFormat getValues: (GLint *) &glConfig.depthBits forAttribute: NSOpenGLPFADepthSize forVirtualScreen: 0];
+    [pixelFormat getValues: (GLint *) &glConfig.stencilBits forAttribute: NSOpenGLPFAStencilSize forVirtualScreen: 0];
 
     glConfig.displayFrequency = [[glw_state.gameMode objectForKey: (id)kCGDisplayRefreshRate] intValue];
     
@@ -543,7 +546,7 @@ void GLimp_EndFrame (void)
         r_swapInterval->modified = qfalse;
 
         if ( !glConfig.stereoEnabled ) {	// why?
-            [[NSOpenGLContext currentContext] setValues: (long *)&r_swapInterval->integer
+            [[NSOpenGLContext currentContext] setValues: (GLint *)&r_swapInterval->integer
             forParameter: NSOpenGLCPSwapInterval];
         }
     }
@@ -681,7 +684,7 @@ void GLimp_SetGamma(unsigned char red[256],
                     unsigned char blue[256])
 {
     CGGammaValue redGamma[256], greenGamma[256], blueGamma[256];
-    CGTableCount i;
+    uint32_t i;
     CGDisplayErr err;
     
     if (!glConfig.deviceSupportsGamma)
@@ -718,28 +721,22 @@ qboolean GLimp_ChangeMode( int mode )
 
 /*****************************************************************************/
 
-void *qwglGetProcAddress(const char *name)
+void *GLimp_ExtensionPointer(const char *name)
 {
-    NSSymbol symbol;
-    char *symbolName;
+	static void		*handle = NULL;
+	void			*proc = NULL;
 
-    // Prepend a '_' for the Unix C symbol mangling convention
-    symbolName = malloc(strlen(name) + 2);
-    strcpy(symbolName + 1, name);
-    symbolName[0] = '_';
+	if ( handle == NULL ) {
+		handle = dlopen( "/System/Library/Frameworks/OpenGL.framework/Versions/Current/OpenGL", RTLD_LAZY );
+	}
 
-    if (NSIsSymbolNameDefined(symbolName))
-        symbol = NSLookupAndBindSymbol(symbolName);
-    else
-        symbol = NULL;
-    
-    free(symbolName);
-    
-    if (!symbol)
-        // shouldn't happen ...
-        return NULL;
+	proc = dlsym( handle ? handle : RTLD_DEFAULT, name );
 
-    return NSAddressOfSymbol(symbol);
+	if ( !proc ) {
+		Com_DPrintf( "Couldn't find proc address for: %s\n", name );
+	}
+
+	return proc;
 }
 
 /*
@@ -826,7 +823,7 @@ static void GLW_InitExtensions( void )
 #if 0   // Win32 does this differently than we do -- I'll provide a C function that looks the same
         // that will do the correct ObjC stuff
         // WGL_EXT_swap_control
-        qwglSwapIntervalEXT = ( BOOL (WINAPI *)(int)) qwglGetProcAddress( "wglSwapIntervalEXT" );
+        qwglSwapIntervalEXT = ( BOOL (WINAPI *)(int)) GLimp_ExtensionPointer( "wglSwapIntervalEXT" );
         if ( qwglSwapIntervalEXT )
         {
                 ri.Printf( PRINT_ALL, "...using WGL_EXT_swap_control\n" );
@@ -851,9 +848,9 @@ static void GLW_InitExtensions( void )
         {
                 if ( r_ext_multitexture->integer )
                 {
-                        qglMultiTexCoord2fARB = ( PFNGLMULTITEXCOORD2FARBPROC ) qwglGetProcAddress( "glMultiTexCoord2fARB" );
-                        qglActiveTextureARB = ( PFNGLACTIVETEXTUREARBPROC ) qwglGetProcAddress( "glActiveTextureARB" );
-                        qglClientActiveTextureARB = ( PFNGLCLIENTACTIVETEXTUREARBPROC ) qwglGetProcAddress( "glClientActiveTextureARB" );
+                        qglMultiTexCoord2fARB = ( PFNGLMULTITEXCOORD2FARBPROC ) GLimp_ExtensionPointer( "glMultiTexCoord2fARB" );
+                        qglActiveTextureARB = ( PFNGLACTIVETEXTUREARBPROC ) GLimp_ExtensionPointer( "glActiveTextureARB" );
+                        qglClientActiveTextureARB = ( PFNGLCLIENTACTIVETEXTUREARBPROC ) GLimp_ExtensionPointer( "glClientActiveTextureARB" );
 
                         if ( qglActiveTextureARB )
                         {
@@ -890,8 +887,8 @@ static void GLW_InitExtensions( void )
                 if ( r_ext_compiled_vertex_array->integer )
                 {
                         ri.Printf( PRINT_ALL, "...using GL_EXT_compiled_vertex_array\n" );
-                        qglLockArraysEXT = ( void ( APIENTRY * )( GLint, GLint ) ) qwglGetProcAddress( "glLockArraysEXT" );
-                        qglUnlockArraysEXT = ( void ( APIENTRY * )( void ) ) qwglGetProcAddress( "glUnlockArraysEXT" );
+                        qglLockArraysEXT = ( void ( APIENTRY * )( GLint, GLint ) ) GLimp_ExtensionPointer( "glLockArraysEXT" );
+                        qglUnlockArraysEXT = ( void ( APIENTRY * )( void ) ) GLimp_ExtensionPointer( "glUnlockArraysEXT" );
                         if (!qglLockArraysEXT || !qglUnlockArraysEXT) {
                                 ri.Error (ERR_FATAL, "bad getprocaddress\n");
                         }
@@ -930,12 +927,12 @@ static unsigned long Sys_QueryVideoMemory()
 {
     CGLError err;
     CGLRendererInfoObj rendererInfo, rendererInfos[MAX_RENDERER_INFO_COUNT];
-    long rendererInfoIndex, rendererInfoCount = MAX_RENDERER_INFO_COUNT;
-    long rendererIndex, rendererCount;
-    long maxVRAM = 0, vram = 0;
-    long accelerated;
-    long rendererID;
-    long totalRenderers = 0;
+    GLint rendererInfoIndex, rendererInfoCount = MAX_RENDERER_INFO_COUNT;
+    GLint rendererIndex, rendererCount;
+    GLint maxVRAM = 0, vram = 0;
+    GLint accelerated;
+    GLint rendererID;
+    GLint totalRenderers = 0;
     
     err = CGLQueryRendererInfo(CGDisplayIDToOpenGLDisplayMask(Sys_DisplayToUse()), rendererInfos, &rendererInfoCount);
     if (err) {

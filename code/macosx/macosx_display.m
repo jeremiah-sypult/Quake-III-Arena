@@ -64,7 +64,7 @@ NSDictionary *Sys_GetMatchingDisplayMode(qboolean allowStretchedModes)
     modeCount = [displayModes count];
     if (verbose) {
         ri.Printf(PRINT_ALL, "%d modes avaliable\n", modeCount);
-        ri.Printf(PRINT_ALL, "Current mode is %s\n", [[(id)CGDisplayCurrentMode(glw_state.display) description] cString]);
+        ri.Printf(PRINT_ALL, "Current mode is %s\n", [[(id)CGDisplayCurrentMode(glw_state.display) description] cStringUsingEncoding:NSUTF8StringEncoding]);
     }
     
     // Default to the current desktop mode
@@ -76,7 +76,7 @@ NSDictionary *Sys_GetMatchingDisplayMode(qboolean allowStretchedModes)
         
         mode = [displayModes objectAtIndex: modeIndex];
         if (verbose) {
-            ri.Printf(PRINT_ALL, " mode %d -- %s\n", modeIndex, [[mode description] cString]);
+            ri.Printf(PRINT_ALL, " mode %d -- %s\n", modeIndex, [[mode description] cStringUsingEncoding:NSUTF8StringEncoding]);
         }
 
         // Make sure we get the right size
@@ -138,7 +138,7 @@ NSDictionary *Sys_GetMatchingDisplayMode(qboolean allowStretchedModes)
 
 void Sys_GetGammaTable(glwgamma_t *table)
 {
-    CGTableCount tableSize = 512;
+    uint32_t tableSize = 512;
     CGDisplayErr err;
     
     table->tableSize = tableSize;
@@ -191,9 +191,9 @@ void Sys_StoreGammaTables()
 //  This isn't a mathematically correct fade, but we don't care that much.
 void Sys_SetScreenFade(glwgamma_t *table, float fraction)
 {
-    CGTableCount tableSize;
+    uint32_t tableSize;
     CGGammaValue *red, *blue, *green;
-    CGTableCount gammaIndex;
+    uint32_t gammaIndex;
     
     if (!glConfig.deviceSupportsGamma)
         return;
@@ -232,7 +232,6 @@ void Sys_SetScreenFade(glwgamma_t *table, float fraction)
 void Sys_FadeScreens()
 {
     CGDisplayCount displayIndex;
-    int stepIndex;
     glwgamma_t *table;
     NSTimeInterval start, current;
     float time;
@@ -261,8 +260,7 @@ void Sys_FadeScreen(CGDirectDisplayID display)
 {
     CGDisplayCount displayIndex;
     glwgamma_t *table;
-    int stepIndex;
-    
+
     if (!glConfig.deviceSupportsGamma)
         return;
 
@@ -295,7 +293,6 @@ void Sys_FadeScreen(CGDirectDisplayID display)
 void Sys_UnfadeScreens()
 {
     CGDisplayCount displayIndex;
-    int stepIndex;
     glwgamma_t *table;
     NSTimeInterval start, current;
     float time;
@@ -323,15 +320,14 @@ void Sys_UnfadeScreens()
 void Sys_UnfadeScreen(CGDirectDisplayID display, glwgamma_t *table)
 {
     CGDisplayCount displayIndex;
-    int stepIndex;
-    
+
     if (!glConfig.deviceSupportsGamma)
         return;
     
     Com_Printf("Unfading display 0x%08x\n", display);
 
     if (table) {
-        CGTableCount i;
+        uint32_t i;
         
         Com_Printf("Given table:\n");
         for (i = 0; i < table->tableSize; i++) {

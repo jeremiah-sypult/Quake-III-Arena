@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #import "macosx_timers.h"
 #import "macosx_display.h" // For Sys_SetScreenFade
 
-#import <IOKit/hidsystem/event_status_driver.h>
+#import <IOKit/hidsystem/IOHIDShared.h>
 #import <sys/types.h>
 #import <sys/time.h>
 #import <unistd.h>
@@ -53,10 +53,86 @@ static void Sys_StopMouseInput();
 static qboolean mouseactive = qfalse;
 static BOOL inputRectValid = NO;
 static CGRect inputRect;
-static NXMouseScaling originalScaling;
+static double originalScaling = 0;
 
 static unsigned int currentModifierFlags;
 
+static io_object_t IN_MacOSXIOHIDOpen()
+{
+	kern_return_t			kernResult = KERN_SUCCESS;
+    mach_port_t				masterPort = 0;
+    CFMutableDictionaryRef	matching = NULL;
+	io_iterator_t			existing = 0;
+    io_object_t				service = 0;
+	io_object_t				connect = 0;
+
+	if ((kernResult = IOMasterPort(MACH_PORT_NULL, &masterPort)) != KERN_SUCCESS) {
+		Com_Printf("IOHID failed on IOMasterPort.\n");
+	}
+
+	if ((matching = IOServiceMatching("IOHIDSystem")) == NULL) {
+		Com_Printf("IOHID failed on IOServiceMatching.\n");
+	}
+
+	if ((kernResult = IOServiceGetMatchingServices(masterPort, matching, &existing)) != KERN_SUCCESS) {
+		Com_Printf("IOHID failed on IOServiceGetMatchingServices.\n");
+	}
+
+	// TODO: handle multiple services in while loop?
+	if ((service = IOIteratorNext(existing))) {
+		if ((kernResult = IOServiceOpen(service, mach_task_self(), kIOHIDParamConnectType, &connect)) != KERN_SUCCESS) {
+			Com_Printf("IOHID failed on IOServiceOpen.\n");
+		}
+	}
+
+	return connect;
+}
+
+static void IN_MacOSXIOHIDClose(io_connect_t connect)
+{
+	kern_return_t			kernResult = KERN_SUCCESS;
+
+	if (connect) {
+		if ((kernResult = IOServiceClose(connect)) != KERN_SUCCESS) {
+			Com_Printf("IOHID failed on IOServiceClose.\n");
+		}
+	}
+}
+
+static double IN_MacOSXIOHIDGetMouseAcceleration()
+{
+	double					mouseAcceleration = 0.0;
+	kern_return_t			kernResult = KERN_SUCCESS;
+	io_object_t				connect = 0;
+
+	connect = IN_MacOSXIOHIDOpen();
+
+	if ((kernResult = IOHIDGetMouseAcceleration(connect, &mouseAcceleration)) != KERN_SUCCESS) {
+		Com_Printf("IOHID failed on IOHIDGetMouseAcceleration.\n");
+	}
+
+	IN_MacOSXIOHIDClose(connect);
+
+	return mouseAcceleration;
+}
+
+static qboolean IN_MacOSXIOHIDSetMouseAcceleration(double mouseAcceleration)
+{
+	qboolean		result = qtrue;
+	kern_return_t			kernResult = KERN_SUCCESS;
+	io_object_t				connect = 0;
+
+	connect = IN_MacOSXIOHIDOpen();
+
+	if ((kernResult = IOHIDSetMouseAcceleration(connect, mouseAcceleration)) != KERN_SUCCESS) {
+		Com_Printf("IOHID failed on IOHIDSetMouseAcceleration.\n");
+		result = qfalse;
+	}
+
+	IN_MacOSXIOHIDClose(connect);
+
+	return result;
+}
 
 
 static void Sys_PreventMouseMovement(CGPoint point)
@@ -181,8 +257,7 @@ extern void Sys_UpdateWindowMouseInputRect(void);
 
 static void Sys_StartMouseInput()
 {
-    NXEventHandle eventStatus;
-    CGMouseDelta dx, dy;
+    int32_t dx, dy;
 
     if (mouseactive) {
         //Com_Printf("**** Attempted to start mouse input while already started\n");
@@ -202,25 +277,22 @@ static void Sys_StartMouseInput()
     CGGetLastMouseDelta(&dx, &dy);
     
     // Turn off mouse scaling
-    if (in_disableOSMouseScaling->integer==0 && (eventStatus = NXOpenEventStatus())) {
-        NXMouseScaling newScaling;
+    if (in_disableOSMouseScaling->integer) {
+		originalScaling = IN_MacOSXIOHIDGetMouseAcceleration();
+		if (!originalScaling) {
+			Com_Printf("Failed to get mouse acceleration.\n");
+		}
 
-// jeremiah sypult - TODO: deprecated mouse scaling API
-//        NXGetMouseScaling(eventStatus, &originalScaling);
-        newScaling.numScaleLevels = 1;
-        newScaling.scaleThresholds[0] = 1;
-        newScaling.scaleFactors[0] = -1;
-// jeremiah sypult - TODO: deprecated mouse scaling API
-//        NXSetMouseScaling(eventStatus, &newScaling);
-        NXCloseEventStatus(eventStatus);
+		if (!IN_MacOSXIOHIDSetMouseAcceleration(0.0)) {
+			Com_Printf("Failed to set mouse acceleration.\n");
+		}
     }
-    
+
     [NSCursor hide];
 }
 
 static void Sys_StopMouseInput()
 {
-    NXEventHandle eventStatus;
     if (!mouseactive) {
         //Com_Printf("**** Attempted to stop mouse input while already stopped\n");
         return;
@@ -229,10 +301,10 @@ static void Sys_StopMouseInput()
     Com_Printf("Stopping mouse input\n");
     
     // Restore mouse scaling
-    if (in_disableOSMouseScaling->integer == 0 && (eventStatus = NXOpenEventStatus())) {
-// jeremiah sypult - TODO: deprecated mouse scaling API
-//        NXSetMouseScaling(eventStatus, &originalScaling);
-        NXCloseEventStatus(eventStatus);
+    if (in_disableOSMouseScaling->integer) {
+		if (!IN_MacOSXIOHIDSetMouseAcceleration(originalScaling)) {
+			Com_Printf("Failed to set mouse acceleration.\n");
+		}
     }
 
     mouseactive = qfalse;

@@ -67,7 +67,7 @@ OSStatus audioDeviceIOProc(AudioDeviceID inDevice,
     offset = ( s_chunkCount * submissionChunk ) % maxMixedSamples;
     samples = s_mixedSamples + offset;
 
-    assert(outOutputData->mNumberBuffers == 1);
+    //assert(outOutputData->mNumberBuffers == 1); // jeremiah sypult - will only mix the first buffer/stream
     assert(outOutputData->mBuffers[0].mNumberChannels == 2);
     //assert(outOutputData->mBuffers[0].mDataByteSize == (dma.submission_chunk * sizeof(float)));
 
@@ -304,7 +304,7 @@ void SNDDMA_Shutdown(void)
     
     free(s_mixedSamples);
     s_mixedSamples = NULL;
-    dma.samples = NULL;
+    dma.samples = 0;
 }
 
 /*

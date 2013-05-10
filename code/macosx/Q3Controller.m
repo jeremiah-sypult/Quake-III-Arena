@@ -166,7 +166,7 @@ extern void CL_Quit_f(void);
 
         requestedServer = [pasteboard stringForType:NSStringPboardType];
         if (requestedServer) {
-            Cbuf_AddText(va("connect %s\n", [requestedServer cString]));
+            Cbuf_AddText(va("connect %s\n", [requestedServer cStringUsingEncoding:NSUTF8StringEncoding]));
             return;
         }
     }
@@ -183,7 +183,7 @@ extern void CL_Quit_f(void);
 
         requestedCommand = [pasteboard stringForType:NSStringPboardType];
         if (requestedCommand) {
-            Cbuf_AddText(va("%s\n", [requestedCommand cString]));
+            Cbuf_AddText(va("%s\n", [requestedCommand cStringUsingEncoding:NSUTF8StringEncoding]));
             return;
         }
     }
@@ -222,7 +222,7 @@ extern void CL_Quit_f(void);
         if ([arg hasPrefix: @"-psn_"])
             continue;
             
-        argv[argc++] = strdup([arg cString]);
+        argv[argc++] = strdup([arg cStringUsingEncoding:NSUTF8StringEncoding]);
     }
     
     // Figure out where the level data is stored.
@@ -339,7 +339,7 @@ extern void CL_Quit_f(void);
     Sys_CheckCD();
     
     // Let the filesystem know where our local install is
-    Sys_SetDefaultInstallPath([installationPath cString]);
+    Sys_SetDefaultInstallPath([installationPath cStringUsingEncoding:NSUTF8StringEncoding]);
 
     cmdline = NULL;
 #if 0

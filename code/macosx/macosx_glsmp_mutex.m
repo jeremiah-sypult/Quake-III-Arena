@@ -104,7 +104,7 @@ void *GLimp_RendererSleep(void)
             pthread_cond_wait(&renderThreadCondition, &smpMutex);
             
         // Record the data (if any).
-        data = smpData;
+        data = (void*)smpData; // jeremiah sypult - cast from volatile void*
     } pthread_mutex_unlock(&smpMutex);
     
 #ifndef USE_CGLMACROS
