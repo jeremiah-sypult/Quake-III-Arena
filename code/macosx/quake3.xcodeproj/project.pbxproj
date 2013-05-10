@@ -152,7 +152,6 @@
 		2711BEF114D138D9005EB142 /* macosx_local.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macosx_local.h; sourceTree = "<group>"; };
 		2711BEF214D138D9005EB142 /* macosx_qgl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macosx_qgl.h; sourceTree = "<group>"; };
 		2711BEF314D138D9005EB142 /* macosx_sndcore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = macosx_sndcore.m; sourceTree = "<group>"; };
-		2711BEF414D138D9005EB142 /* macosx_snddma.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = macosx_snddma.m; sourceTree = "<group>"; };
 		2711BEF514D138D9005EB142 /* macosx_sys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = macosx_sys.m; sourceTree = "<group>"; };
 		2711BEF614D138D9005EB142 /* macosx_timers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macosx_timers.h; sourceTree = "<group>"; };
 		2711BEF714D138D9005EB142 /* macosx_timers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = macosx_timers.m; sourceTree = "<group>"; };
@@ -355,7 +354,6 @@
 				2711BEF114D138D9005EB142 /* macosx_local.h */,
 				2711BEF214D138D9005EB142 /* macosx_qgl.h */,
 				2711BEF314D138D9005EB142 /* macosx_sndcore.m */,
-				2711BEF414D138D9005EB142 /* macosx_snddma.m */,
 				2711BEF514D138D9005EB142 /* macosx_sys.m */,
 				2711BEF614D138D9005EB142 /* macosx_timers.h */,
 				2711BEF714D138D9005EB142 /* macosx_timers.m */,
