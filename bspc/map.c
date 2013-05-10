@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "l_bsp_q3.h"
 #include "l_bsp_sin.h"
 #include "l_mem.h"
-#include "../botlib/aasfile.h"		//aas_bbox_t
+#include "botlib/aasfile.h"		//aas_bbox_t
 #include "aas_store.h"		//AAS_MAX_BBOXES
 #include "aas_cfg.h"
 
@@ -830,7 +830,7 @@ qboolean WriteMapBrush(FILE *fp, mapbrush_t *brush, vec3_t origin)
 				//write the extra brush side info
 				if (loadedmaptype == MAPTYPE_QUAKE2)
 				{
-					if (fprintf(fp, " %ld %ld %ld", s->contents, ti->flags, ti->value) < 0) return false;
+					if (fprintf(fp, " %d %d %d", s->contents, ti->flags, ti->value) < 0) return false;
 				} //end if
 				//*/
 			} //end else
@@ -908,7 +908,7 @@ qboolean WriteOriginBrush(FILE *fp, vec3_t origin)
 mapbrush_t *GetAreaPortalBrush(entity_t *mapent)
 {
 	int portalnum, bn;
-	mapbrush_t *brush;
+	mapbrush_t *brush = NULL;
 
 	//the area portal number
 	portalnum = mapent->areaportalnum;
@@ -1212,8 +1212,15 @@ int LoadMapFromBSP(struct quakefile_s *qf)
 
 	idheader.ident = LittleLong(idheader.ident);
 	idheader.version = LittleLong(idheader.version);
+	//QuakeLive BSP file
+	if (idheader.ident == QL_BSP_IDENT && idheader.version == QL_BSP_VERSION)
+	{
+		ResetMapLoading();
+		Q3_LoadMapFromBSP(qf);
+		Q3_FreeMaxBSP();
+	} //end if
 	//Quake3 BSP file
-	if (idheader.ident == Q3_BSP_IDENT && idheader.version == Q3_BSP_VERSION)
+	else if (idheader.ident == Q3_BSP_IDENT && idheader.version == Q3_BSP_VERSION)
 	{
 		ResetMapLoading();
 		Q3_LoadMapFromBSP(qf);

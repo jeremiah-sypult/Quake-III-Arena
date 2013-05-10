@@ -22,10 +22,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "qbsp.h"
 #include "l_mem.h"
-#include "../botlib/aasfile.h"
+#include "botlib/aasfile.h"
 #include "aas_store.h"
 #include "aas_cfg.h"
 
+#include <stddef.h>
 #include <assert.h>
 
 /*
@@ -111,7 +112,7 @@ void PrintContents(int contents)
 	} //end for
 } //end of the function PrintContents
 
-//#endif DEBUG
+//#endif
 
 //===========================================================================
 //
@@ -422,9 +423,9 @@ node_t *AllocNode (void)
 bspbrush_t *AllocBrush (int numsides)
 {
 	bspbrush_t	*bb;
-	int			c;
+	size_t		c;
 
-	c = (int)&(((bspbrush_t *)0)->sides[numsides]);
+	c = offsetof(bspbrush_t, sides[numsides]);
 	bb = GetMemory(c);
 	memset (bb, 0, c);
 	if (numthreads == 1)
@@ -484,10 +485,10 @@ void FreeBrushList (bspbrush_t *brushes)
 bspbrush_t *CopyBrush (bspbrush_t *brush)
 {
 	bspbrush_t *newbrush;
-	int			size;
+	size_t		size;
 	int			i;
 	
-	size = (int)&(((bspbrush_t *)0)->sides[brush->numsides]);
+	size = offsetof(bspbrush_t, sides[brush->numsides]);
 
 	newbrush = AllocBrush (brush->numsides);
 	memcpy (newbrush, brush, size);
@@ -972,13 +973,11 @@ side_t *SelectSplitSide (bspbrush_t *brushes, node_t *node)
 	int			s;
 	int			front, back, both, facing, splits;
 	int			bsplits;
-	int			bestsplits;
 	int			epsilonbrush;
 	qboolean	hintsplit = false;
 
 	bestside = NULL;
 	bestvalue = -99999;
-	bestsplits = 0;
 
 	// the search order goes: visible-structural, visible-detail,
 	// nonvisible-structural, nonvisible-detail.
@@ -1066,7 +1065,6 @@ side_t *SelectSplitSide (bspbrush_t *brushes, node_t *node)
 				{
 					bestvalue = value;
 					bestside = side;
-					bestsplits = splits;
 					for (test = brushes; test ; test = test->next)
 						test->side = test->testside;
 				} //end if

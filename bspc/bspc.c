@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ===========================================================================
 */
 
+#define AASINTERN /* make more botlib function prototypes visible */
+
 #if defined(WIN32) || defined(_WIN32)
 #include <direct.h>
 #include <windows.h>
@@ -33,9 +35,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #endif
 #include "qbsp.h"
 #include "l_mem.h"
-#include "../botlib/aasfile.h"
-#include "../botlib/be_aas_cluster.h"
-#include "../botlib/be_aas_optimize.h"
+#include "botlib/aasfile.h"
+#include "botlib/be_aas_cluster.h"
+#include "botlib/be_aas_optimize.h"
 #include "aas_create.h"
 #include "aas_store.h"
 #include "aas_file.h"
@@ -76,6 +78,50 @@ qboolean	cancelconversion;	//true if the conversion is being cancelled
 qboolean	noliquids;			//no liquids when writing map file
 qboolean	forcesidesvisible;	//force all brush sides to be visible when loaded from bsp
 qboolean	capsule_collision = 0;
+
+/*
+============================================================================
+
+					BYTE ORDER FUNCTIONS
+
+============================================================================
+*/
+
+short   ShortSwap (short l)
+{
+	byte    b1,b2;
+
+	b1 = l&255;
+	b2 = (l>>8)&255;
+
+	return (b1<<8) + b2;
+}
+
+int    LongSwap (int l)
+{
+	byte    b1,b2,b3,b4;
+
+	b1 = l&255;
+	b2 = (l>>8)&255;
+	b3 = (l>>16)&255;
+	b4 = (l>>24)&255;
+
+	return ((int)b1<<24) + ((int)b2<<16) + ((int)b3<<8) + b4;
+}
+
+typedef union {
+    float	f;
+    unsigned int i;
+} _FloatByteUnion;
+
+float FloatSwap (const float *f) {
+	_FloatByteUnion out;
+
+	out.f = *f;
+	out.i = LongSwap(out.i);
+
+	return out.f;
+}
 
 /*
 //===========================================================================
@@ -380,7 +426,6 @@ void CreateAASFilesForAllBSPFiles(char *quakepath)
 	struct stat statbuf;
 	int j;
 #endif
-	int done;
 	char filter[_MAX_PATH], bspfilter[_MAX_PATH], aasfilter[_MAX_PATH];
 	char aasfile[_MAX_PATH], buf[_MAX_PATH], foldername[_MAX_PATH];
 	quakefile_t *qf, *qf2, *files, *bspfiles, *aasfiles;

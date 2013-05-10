@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "l_mem.h"
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <assert.h>
 
 #ifndef SIN
 #define SIN
@@ -273,7 +274,7 @@ void SetQdirFromPath (char *path)
 
 	if (!(path[0] == '/' || path[0] == '\\' || path[1] == ':'))
 	{	// path is partial
-		Q_getwd (temp);
+		Q_getwd (temp, sizeof(temp));
 		strcat (temp, path);
 		path = temp;
 	}
@@ -309,7 +310,7 @@ char *ExpandArg (char *path)
 
 	if (path[0] != '/' && path[0] != '\\' && path[1] != ':')
 	{
-		Q_getwd (full);
+		Q_getwd (full, sizeof(full));
 		strcat (full, path);
 	}
 	else
@@ -320,7 +321,7 @@ char *ExpandArg (char *path)
 char *ExpandPath (char *path)
 {
 	static char full[1024];
-	if (!qdir)
+	if (!qdir[0])
 		Error ("ExpandPath called without qdir set");
 	if (path[0] == '/' || path[0] == '\\' || path[1] == ':')
 		return path;
@@ -384,13 +385,16 @@ double I_FloatTime (void)
 #endif
 }
 
-void Q_getwd (char *out)
+void Q_getwd (char *out, size_t size)
 {
+   assert(size >= 2);
+   if (NULL == getcwd(out, size - 2)) {
+      perror("getcwd");
+      exit(1);
+   }
 #if defined(WIN32) || defined(_WIN32)
-   getcwd (out, 256);
-   strcat (out, "\\");
+   strcat(out, "\\");
 #else
-   getwd(out);
    strcat(out, "/");
 #endif
 }

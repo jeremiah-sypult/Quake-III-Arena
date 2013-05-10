@@ -22,16 +22,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "qbsp.h"
 #include "float.h"
-#include "../botlib/aasfile.h"
+#include "botlib/aasfile.h"
 #include "aas_store.h"
 #include "aas_cfg.h"
-#include "../botlib/l_precomp.h"
-#include "../botlib/l_struct.h"
-#include "../botlib/l_libvar.h"
+#include "botlib/l_precomp.h"
+#include "botlib/l_struct.h"
+#include "botlib/l_libvar.h"
+
+#include <stddef.h>
 
 //structure field offsets
-#define BBOX_OFS(x) (int)&(((aas_bbox_t *)0)->x)
-#define CFG_OFS(x) (int)&(((cfg_t *)0)->x)
+#define BBOX_OFS(x) offsetof(aas_bbox_t, x)
+#define CFG_OFS(x) offsetof(cfg_t, x)
 
 //bounding box definition
 fielddef_t bbox_fields[] =

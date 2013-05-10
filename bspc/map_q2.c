@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "qbsp.h"
 #include "l_mem.h"
-#include "../botlib/aasfile.h"			//aas_bbox_t
+#include "botlib/aasfile.h"			//aas_bbox_t
 #include "aas_store.h"		//AAS_MAX_BBOXES
 #include "aas_cfg.h"
 #include "aas_map.h"			//AAS_CreateMapBrushes
@@ -494,7 +494,6 @@ qboolean	Q2_ParseMapEntity(script_t *script)
 	epair_t *e;
 	side_t *s;
 	int i, j;
-	int startbrush, startsides;
 	vec_t newdist;
 	mapbrush_t *b;
 	token_t token;
@@ -506,9 +505,6 @@ qboolean	Q2_ParseMapEntity(script_t *script)
 	
 	if (num_entities == MAX_MAP_ENTITIES)
 		Error ("num_entities == MAX_MAP_ENTITIES");
-
-	startbrush = nummapbrushes;
-	startsides = nummapbrushsides;
 
 	mapent = &entities[num_entities];
 	num_entities++;
@@ -994,10 +990,6 @@ qboolean Q2_ParseBSPEntity(int entnum)
 {
 	entity_t	*mapent;
 	char *model;
-	int startbrush, startsides;
-
-	startbrush = nummapbrushes;
-	startsides = nummapbrushsides;
 
 	mapent = &entities[entnum];//num_entities];
 	mapent->firstbrush = nummapbrushes;

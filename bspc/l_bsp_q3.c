@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "l_mem.h"
 #include "l_log.h"
 #include "l_poly.h"
-#include "../botlib/l_script.h"
+#include "botlib/l_script.h"
 #include "l_qfiles.h"
 #include "l_bsp_q3.h"
 #include "l_bsp_ent.h"
@@ -217,7 +217,7 @@ void Q3_SurfacePlane(q3_dsurface_t *surface, vec3_t normal, float *dist)
 */
 	if (VectorLength(normal) < 0.9)
 	{
-		printf("surface %d bogus normal vector %f %f %f\n", surface - q3_drawSurfaces, normal[0], normal[1], normal[2]);
+		printf("surface %td bogus normal vector %f %f %f\n", surface - q3_drawSurfaces, normal[0], normal[1], normal[2]);
 		printf("t1 = %f %f %f, t2 = %f %f %f\n", t1[0], t1[1], t1[2], t2[0], t2[1], t2[2]);
 		for (i = 0; i < surface->numVerts; i++)
 		{
@@ -265,7 +265,7 @@ void Q3_SurfacePlane(q3_dsurface_t *surface, vec3_t normal, float *dist)
 	//take the plane information from the lightmap vector
 	//VectorCopy(surface->lightmapVecs[2], normal);
 	//calculate plane dist with first surface vertex
-	//*dist = DotProduct(q3_drawVerts[surface->firstVert].xyz, normal);
+//	*dist = DotProduct(q3_drawVerts[surface->firstVert].xyz, normal);
 	Q3_PlaneFromPoints(q3_drawVerts[surface->firstVert].xyz,
 						q3_drawVerts[surface->firstVert+1].xyz,
 						q3_drawVerts[surface->firstVert+2].xyz, normal, dist);
@@ -599,11 +599,11 @@ void	Q3_LoadBSPFile(struct quakefile_s *qf)
 	// swap the header
 	Q3_SwapBlock( (int *)header, sizeof(*header) );
 
-	if ( header->ident != Q3_BSP_IDENT ) {
+	if ( header->ident != Q3_BSP_IDENT && header->ident != QL_BSP_IDENT ) {
 		Error( "%s is not a IBSP file", qf->filename );
 	}
-	if ( header->version != Q3_BSP_VERSION ) {
-		Error( "%s is version %i, not %i", qf->filename, header->version, Q3_BSP_VERSION );
+	if ( header->version != Q3_BSP_VERSION && header->version != QL_BSP_VERSION ) {
+		Error( "%s is version %i, not (%i or %i)", qf->filename, header->version, Q3_BSP_VERSION, QL_BSP_VERSION );
 	}
 
 	q3_numShaders = Q3_CopyLump( header, Q3_LUMP_SHADERS, (void *) &q3_dshaders, sizeof(q3_dshader_t) );

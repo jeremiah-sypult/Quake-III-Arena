@@ -36,13 +36,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define	MAX_QPATH		64
 
 
+#if 0
 /*
 ========================================================================
 
 PCX files are used for 8 bit images
 
 ========================================================================
-* 
+*/
 
 typedef struct {
     char	manufacturer;
@@ -67,7 +68,7 @@ typedef struct {
 TGA files are used for 24/32 bit images
 
 ========================================================================
-* 
+*/
 
 typedef struct _TargaHeader {
 	unsigned char 	id_length, colormap_type, image_type;
@@ -77,8 +78,8 @@ typedef struct _TargaHeader {
 	unsigned char	pixel_size, attributes;
 } TargaHeader;
 
+#endif // #if 0
 
-*/
 
 /*
 ========================================================================
@@ -203,6 +204,13 @@ typedef struct {
 
 #define Q3_BSP_VERSION			46
 
+// quick fix for creating aas files for ql bsp's.
+// (later this will probably need to be seperated, if we plan to add further support for ql)
+#define QL_BSP_IDENT	(('P'<<24)+('S'<<16)+('B'<<8)+'I')
+		// little-endian "IBSP"
+
+#define QL_BSP_VERSION			47
+// ***********************************************************
 
 // there shouldn't be any problem with increasing these values at the
 // expense of more memory allocation in the utilities

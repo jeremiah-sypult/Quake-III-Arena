@@ -24,12 +24,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #if defined(WIN32) || defined(_WIN32)
 #include <io.h>
 #endif
-#include <malloc.h>
+#include <stdlib.h>
 #include "l_cmd.h"
 #include "l_math.h"
 #include "l_poly.h"
 #include "l_threads.h"
-#include "../botlib/l_script.h"
+#include "botlib/l_script.h"
 #include "l_bsp_ent.h"
 #include "q2files.h"
 #include "l_mem.h"
@@ -58,6 +58,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define SFL_BEVEL			4
 #define SFL_TEXTURED		8
 #define SFL_CURVE			16
+
+#if defined(BSPC) && !defined(stricmp)
+#define stricmp strcasecmp
+#endif
 
 //map plane
 typedef struct plane_s

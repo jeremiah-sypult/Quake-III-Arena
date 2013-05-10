@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "l_math.h"
 #include "l_mem.h"
 #include "l_log.h"
-#include "../botlib/l_script.h"
+#include "botlib/l_script.h"
 #include "l_bsp_hl.h"
 #include "l_bsp_ent.h"
 
@@ -246,8 +246,9 @@ int FastChecksum(void *buffer, int bytes)
 {
 	int	checksum = 0;
 
-	while( bytes-- )  
-		checksum = (checksum << 4) ^ *((char *)buffer)++;
+// the result of FastChecksum isn't actually used anywhere
+//	while( bytes-- )
+//		checksum = (checksum << 4) ^ *((char *)buffer)++;
 
 	return checksum;
 }
@@ -330,7 +331,7 @@ Byte swaps all data in a bsp file.
 */
 void HL_SwapBSPFile (qboolean todisk)
 {
-	int i, j, c;
+	int i, j, k, c;
 	hl_dmodel_t *d;
 	hl_dmiptexlump_t *mtl;
 
@@ -380,8 +381,13 @@ void HL_SwapBSPFile (qboolean todisk)
 //	
 	for (i=0 ; i<hl_numtexinfo ; i++)
 	{
-		for (j=0 ; j<8 ; j++)
-			hl_texinfo[i].vecs[0][j] = LittleFloat (hl_texinfo[i].vecs[0][j]);
+		for (j=0 ; j<2 ; j++)
+		{
+			for (k=0; k<4; k++)
+			{
+				hl_texinfo[i].vecs[j][k] = LittleFloat (hl_texinfo[i].vecs[j][k]);
+			}
+		}
 		hl_texinfo[i].miptex = LittleLong (hl_texinfo[i].miptex);
 		hl_texinfo[i].flags = LittleLong (hl_texinfo[i].flags);
 	}
@@ -637,7 +643,7 @@ void HL_WriteBSPFile (char *filename)
 #define ENTRIES(a)		(sizeof(a)/sizeof(*(a)))
 #define ENTRYSIZE(a)	(sizeof(*(a)))
 
-ArrayUsage( char *szItem, int items, int maxitems, int itemsize )
+unsigned ArrayUsage( char *szItem, int items, int maxitems, int itemsize )
 {
 	float	percentage = maxitems ? items * 100.0 / maxitems : 0.0;
 
@@ -654,7 +660,7 @@ ArrayUsage( char *szItem, int items, int maxitems, int itemsize )
 	return items * itemsize;
 }
 
-GlobUsage( char *szItem, int itemstorage, int maxstorage )
+unsigned GlobUsage( char *szItem, int itemstorage, int maxstorage )
 {
 	float	percentage = maxstorage ? itemstorage * 100.0 / maxstorage : 0.0;
 
@@ -680,7 +686,6 @@ Dumps info about current file
 */
 void HL_PrintBSPFileSizes(void)
 {
-	int	numtextures = hl_texdatasize ? ((hl_dmiptexlump_t*)hl_dtexdata)->nummiptex : 0;
 	int	totalmemory = 0;
 
 	qprintf("\n");

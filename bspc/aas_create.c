@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 #include "qbsp.h"
-#include "../botlib/aasfile.h"
+#include "botlib/aasfile.h"
 #include "aas_create.h"
 #include "aas_store.h"
 #include "aas_gsubdiv.h"
@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "aas_edgemelting.h"
 #include "aas_prunenodes.h"
 #include "aas_cfg.h"
-#include "../game/surfaceflags.h"
+#include "game/surfaceflags.h"
 
 //#define AW_DEBUG
 //#define L_DEBUG
@@ -342,7 +342,7 @@ void AAS_CheckArea(tmp_area_t *tmparea)
 			Log_Write("AAS_CheckArea: area %d face %d: %s\r\n", tmparea->areanum,
 						face->num, WindingErrorString());
 		} //end if
-#endif L_DEBUG
+#endif
 
 		plane = &mapplanes[face->planenum ^ side];
 
@@ -363,7 +363,7 @@ void AAS_CheckArea(tmp_area_t *tmparea)
 			Log_Write("AAS_CheckArea: area %d face %d winding plane unequal to face plane\r\n",
 										tmparea->areanum, face->num);
 		} //end if
-#endif L_DEBUG
+#endif
 	} //end for
 } //end of the function AAS_CheckArea
 //===========================================================================
@@ -643,7 +643,6 @@ tmp_node_t *AAS_CreateArea(node_t *node)
 	tmp_face_t *tmpface;
 	tmp_area_t *tmparea;
 	tmp_node_t *tmpnode;
-	vec3_t up = {0, 0, 1};
 
 	//create an area from this leaf
 	tmparea = AAS_AllocTmpArea();
